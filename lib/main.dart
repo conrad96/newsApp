@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 class News
 {
-  var id, url, title, text, publisher, author, image, date;
+  var id, url, title, content, publisher, author, image, publishedDate, description;
 
-  News(this.id, this.url, this.title, this.text, this.publisher, this.author, this.image, this.date);
+  News(this.id, this.url, this.title, this.content, this.publisher, this.author, this.image, this.publishedDate, this.description);
 
   News.fromJSON(Map<String, dynamic> json)
   {
     id = json['id'];
     url = json['url'];
     title = json['title'];
-    text = json['text'];
+    content = json['content'];
     publisher = json['publisher'];
     author = json['author'];
-    image = json['image'];
-    date = json['date'];
+    image = json['urlToImage'];
+    publishedDate = json['publishedAt'];
+    description = json['description'];
   }
 
 }
@@ -50,10 +51,19 @@ class _HomePageState extends State<HomePage>
        preferredSize: Size.fromHeight(70),
        child: Container(
          child: AppBar(
-           title: Text('News Application'),
+           title: Text('News Updates'),
+           centerTitle: true
          ),
        )
      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh_sharp),
+        onPressed: ()
+        {
+
+        },
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }
