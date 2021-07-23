@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:drop_cap_text/drop_cap_text.dart';
 
 class News
 {
@@ -140,12 +140,8 @@ class _NewsCardState extends State<NewsCard>
         children: [
           Image.asset('assets/images/sample.png'),
           SizedBox(height: 10),
-          Text('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices'),
-          SizedBox(height: 10),
-          Text('Three days after ransomware attackers hijacked a managed services platform, recovery efforts continued. The REvil group is reportedly asking for as much as \$70 million in Bitcoin to unlock the more than 1 million devices infected.'),
-          SizedBox(height: 10),
-          Text('Filed under:\r\nThe supply chain attack has reached over a thousand organizations.\r\nIllustration by Alex Castro / The Verge\r\nThree days after ransomware attackers started the holiday weekend by comprom… [+3376 chars]'),
-          Text('Author: Richard Lawler\n Published: 2021-07-05T19:45:10Z')
+          DropCapText('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices\n '
+              'Three days after ransomware attackers hijacked a managed services platform, recovery efforts continued. The REvil group is reportedly asking for as much as \$70 million in Bitcoin to unlock the more than 1 million devices infected. \n Author: Richard Lawler\n Published: 2021-07-05T19:45:10Z'),
         ],
       )
     );
