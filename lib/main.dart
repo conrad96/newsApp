@@ -64,6 +64,54 @@ class _HomePageState extends State<HomePage>
         },
         backgroundColor: Colors.green,
       ),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              NewsTile(),
+              NewsTile(),
+              NewsTile(),
+              NewsTile(),
+              NewsTile(),
+              NewsTile()
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class NewsTile extends StatelessWidget
+{
+  Widget build(BuildContext context)
+  {
+    return Card(
+      child: Container(
+        child: Column(
+          children: [
+            ListTile(
+              leading: Image.asset('assets/images/sample.png'),
+              title: Text('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices'),
+              subtitle: Text('2021-07-05T19:45:10Z'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(onPressed: (){},
+                    child: Row(
+                      children: [
+                        Text('Read More'),
+                        SizedBox(width: 10),
+                        Icon(Icons.read_more)
+                      ],
+                    )
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
