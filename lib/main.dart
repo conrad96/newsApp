@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class News
 {
   var id, url, title, content, publisher, author, image, publishedDate, description;
@@ -31,7 +32,11 @@ class NewsApp extends StatelessWidget
         primaryColor: Colors.lightBlue
       ),
       home: HomePage(),
-      title: 'News Application'
+      title: 'News Application',
+      initialRoute: '/',
+      routes: {
+        '/NewsPage': (context) => NewsPage()
+      }
     );
   }
 
@@ -68,6 +73,7 @@ class _HomePageState extends State<HomePage>
         children: [
           Column(
             children: [
+              SizedBox(height: 10),
               NewsTile(),
               NewsTile(),
               NewsTile(),
@@ -87,18 +93,21 @@ class NewsTile extends StatelessWidget
   Widget build(BuildContext context)
   {
     return Card(
+      elevation: 7.0,
       child: Container(
         child: Column(
           children: [
             ListTile(
               leading: Image.asset('assets/images/sample.png'),
-              title: Text('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices'),
-              subtitle: Text('2021-07-05T19:45:10Z'),
+              title: Text('\nKaseya ransomware attackers demand \$70 million, claim they infected over a million devices\n'),
+              subtitle: Text('2021-07-05T19:45:10Z')
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: (){},
+                TextButton(onPressed: (){
+                  Navigator.pushNamed(context, '/NewsPage');
+                },
                     child: Row(
                       children: [
                         Text('Read More'),
@@ -109,6 +118,52 @@ class NewsTile extends StatelessWidget
                 )
               ],
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatefulWidget
+{
+  _NewsCardState createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard>
+{
+  Widget build(BuildContext context)
+  {
+    return Card(
+      margin: EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Image.asset('assets/images/sample.png'),
+          SizedBox(height: 10),
+          Text('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices'),
+          SizedBox(height: 10),
+          Text('Three days after ransomware attackers hijacked a managed services platform, recovery efforts continued. The REvil group is reportedly asking for as much as \$70 million in Bitcoin to unlock the more than 1 million devices infected.'),
+          SizedBox(height: 10),
+          Text('Filed under:\r\nThe supply chain attack has reached over a thousand organizations.\r\nIllustration by Alex Castro / The Verge\r\nThree days after ransomware attackers started the holiday weekend by comprom… [+3376 chars]'),
+          Text('Author: Richard Lawler\n Published: 2021-07-05T19:45:10Z')
+        ],
+      )
+    );
+  }
+}
+
+class NewsPage extends StatelessWidget
+{
+  Widget build(BuildContext context)
+  {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('News Details'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            NewsCard()
           ],
         ),
       ),
