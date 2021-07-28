@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class News
 {
@@ -29,7 +31,7 @@ class NewsApp extends StatelessWidget
     // TODO: implement build
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.lightBlue
+        primaryColor: Colors.redAccent
       ),
       home: HomePage(),
       title: 'News Application',
@@ -49,6 +51,75 @@ class HomePage extends StatefulWidget
 
 class _HomePageState extends State<HomePage>
 {
+  static List<News> _news = <News>[];
+  static List<News> _newsApp = <News>[];
+
+  Future<List<News>> NewsUpdates() async
+  {
+    var apiKey = 'a1cebc277d9748609ce9526fe1f59028';
+    var url = 'https://newsapi.org/v2/everything?q=technology&apiKey='+apiKey;
+    var response = await http.get(Uri.parse(url));
+    var newsList = <News>[];
+
+    if(response.statusCode == 200)
+    {
+      var data = json.decode(response.body);
+
+      for(var content in data['articles'])
+      {
+        newsList.add(News.fromJSON(content));
+      }
+    }
+
+    return newsList;
+  }
+
+  void initState()
+  {
+    NewsUpdates().then((value) {
+      setState(() {
+        _news.addAll(value);
+        _newsApp = _news;
+      });
+    }).catchError((error) => print(error));
+
+    super.initState();
+  }
+
+  NewsTile(index)
+  {
+    return Card(
+      elevation: 7.0,
+      child: Container(
+        child: Column(
+          children: [
+            ListTile(
+                leading: Image.network(_newsApp[index].image),
+                title: Text(_newsApp[index].title),
+                subtitle: Text(_newsApp[index].publishedDate)
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(onPressed: (){
+                  //Navigator.pushNamed(context, '/NewsPage');
+                },
+                    child: Row(
+                      children: [
+                        Text('Read More'),
+                        SizedBox(width: 10),
+                        Icon(Icons.read_more)
+                      ],
+                    )
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget build(BuildContext context)
   {
     return Scaffold(
@@ -65,62 +136,13 @@ class _HomePageState extends State<HomePage>
         child: Icon(Icons.refresh_sharp),
         onPressed: ()
         {
-
         },
         backgroundColor: Colors.green,
       ),
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              SizedBox(height: 10),
-              NewsTile(),
-              NewsTile(),
-              NewsTile(),
-              NewsTile(),
-              NewsTile(),
-              NewsTile()
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class NewsTile extends StatelessWidget
-{
-  Widget build(BuildContext context)
-  {
-    return Card(
-      elevation: 7.0,
-      child: Container(
-        child: Column(
-          children: [
-            ListTile(
-              leading: Image.asset('assets/images/sample.png'),
-              title: Text('\nKaseya ransomware attackers demand \$70 million, claim they infected over a million devices\n'),
-              subtitle: Text('2021-07-05T19:45:10Z')
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(onPressed: (){
-                  Navigator.pushNamed(context, '/NewsPage');
-                },
-                    child: Row(
-                      children: [
-                        Text('Read More'),
-                        SizedBox(width: 10),
-                        Icon(Icons.read_more)
-                      ],
-                    )
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+      body: ListView.builder(
+        itemBuilder: (context, index)=> NewsTile(index),
+        itemCount: _newsApp.length,
+      )
     );
   }
 }
