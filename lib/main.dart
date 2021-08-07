@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -107,7 +104,7 @@ class _HomePageState extends State<HomePage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => NewsScreen(image: _newsApp[index].image, description: _newsApp[index].content),
+                      builder: (context) => NewsScreen(image: _newsApp[index].image, author: _newsApp[index].author, date: _newsApp[index].publishedDate ,description: _newsApp[index].content),
                     ),
                   );
                 },
@@ -157,8 +154,8 @@ class _HomePageState extends State<HomePage>
 
 class NewsScreen extends StatelessWidget
 {
-  NewsScreen({this.image, this.description});
-  var image, description;
+  NewsScreen({this.image, this.author, this.date, this.description});
+  var image, description, author, date;
 
   Widget build(BuildContext context)
   {
@@ -172,7 +169,8 @@ class NewsScreen extends StatelessWidget
             children: [
               Image.network(image),
               SizedBox(height: 10),
-              DropCapText(description),
+              Text(description),
+              Text('\nAuthor: '+ author + '\n Published at: '+ date )
             ],
           )
       ),
