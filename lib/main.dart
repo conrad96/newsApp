@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +39,7 @@ class NewsApp extends StatelessWidget
       title: 'News Application',
       initialRoute: '/',
       routes: {
-        '/NewsPage': (context) => NewsPage()
+        // '/NewsPage': (context) => NewsScreen()
       }
     );
   }
@@ -57,7 +59,7 @@ class _HomePageState extends State<HomePage>
   Future<List<News>> NewsUpdates() async
   {
     var apiKey = 'a1cebc277d9748609ce9526fe1f59028';
-    var url = 'https://newsapi.org/v2/everything?q=technology&apiKey='+apiKey;
+    var url = 'https://newsapi.org/v2/top-headlines?q=crypto&apiKey='+apiKey;
     var response = await http.get(Uri.parse(url));
     var newsList = <News>[];
 
@@ -102,7 +104,12 @@ class _HomePageState extends State<HomePage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(onPressed: (){
-                  //Navigator.pushNamed(context, '/NewsPage');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewsScreen(image: _newsApp[index].image, description: _newsApp[index].content),
+                    ),
+                  );
                 },
                     child: Row(
                       children: [
@@ -136,6 +143,7 @@ class _HomePageState extends State<HomePage>
         child: Icon(Icons.refresh_sharp),
         onPressed: ()
         {
+          //refresh news feed
         },
         backgroundColor: Colors.green,
       ),
@@ -147,43 +155,26 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-class NewsCard extends StatefulWidget
+class NewsScreen extends StatelessWidget
 {
-  _NewsCardState createState() => _NewsCardState();
-}
+  NewsScreen({this.image, this.description});
+  var image, description;
 
-class _NewsCardState extends State<NewsCard>
-{
-  Widget build(BuildContext context)
-  {
-    return Card(
-      margin: EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          Image.asset('assets/images/sample.png'),
-          SizedBox(height: 10),
-          DropCapText('Kaseya ransomware attackers demand \$70 million, claim they infected over a million devices\n '
-              'Three days after ransomware attackers hijacked a managed services platform, recovery efforts continued. The REvil group is reportedly asking for as much as \$70 million in Bitcoin to unlock the more than 1 million devices infected. \n Author: Richard Lawler\n Published: 2021-07-05T19:45:10Z'),
-        ],
-      )
-    );
-  }
-}
-
-class NewsPage extends StatelessWidget
-{
   Widget build(BuildContext context)
   {
     return Scaffold(
       appBar: AppBar(
         title: Text('News Details'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            NewsCard()
-          ],
-        ),
+      body: Card(
+          margin: EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Image.network(image),
+              SizedBox(height: 10),
+              DropCapText(description),
+            ],
+          )
       ),
     );
   }
