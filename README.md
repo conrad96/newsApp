@@ -1,16 +1,12 @@
 # news_app
 
-Media News Application
+<br />NewsUpdates Application<p />
 
-## Getting Started
+Objectives:
+<p />
+<ul>
+<li>List Newsupdates in ListTiles</li>
+<li>Display full News details in a News Card</li>
+</ul>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Am using the free NewsApi version, so the content is truncated by 200 chars.
